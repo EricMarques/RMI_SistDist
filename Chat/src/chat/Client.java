@@ -9,6 +9,10 @@ package chat;
  *
  * @author usrlab25
  */
+
+import java.rmi.Naming;
+import java.util.LinkedList;
+
 public class Client extends javax.swing.JFrame {
 
     /**
@@ -54,6 +58,11 @@ public class Client extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jButtonSend.setText("Enviar");
+        jButtonSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,6 +119,13 @@ public class Client extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
+        String mensagem = jTFMessage.getText();
+        jTFMessage.setText("");
+        jTextArea1.append(mensagem + "\n");
+        LinkedList<String> message = new LinkedList<String>();
+    }//GEN-LAST:event_jButtonSendActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -136,6 +152,11 @@ public class Client extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        try {
+            IClient c = (IClient) Naming.lookup("rmi://localhostChat");
+        } catch (Exception e) {
+        }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
